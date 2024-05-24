@@ -1,0 +1,385 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Person</title>
+    <style>
+        body{
+            padding: 0;
+            margin: 0;
+            border: 0;
+            display: grid;
+            grid-template-rows: auto auto auto;
+            align-content: space-between;
+            height: 100dvh;
+        }
+        a{
+            text-decoration: none;
+        }
+        header{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-evenly;
+            padding: 5px;
+            background-color: rgb(225, 225, 225);
+            position: relative;
+        }
+        header div{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+            padding: 5px;
+            background-color: rgb(225, 225, 225);
+            position: relative;
+        }
+        header img{
+            padding: 2.5px;
+            border-width: 2.5px;
+            border-color: rgb(0, 0, 0);
+            border-style: solid;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            background-color: rgb(255, 255, 255);
+            margin: 0;
+        }
+        header p{
+            color: rgb(35, 35, 35);
+            margin: 0;
+            padding: 2.5px;
+        }
+        header button{
+            margin: 0;
+            border: 0;
+            border-radius: 10px;
+            background-color: rgb(0, 0, 0);
+            color: rgb(255, 255, 255);
+            width: 60px;
+            height: 30px;
+            font-size: 12px;
+        }
+        header button:hover{
+            background-color: rgb(66, 66, 66);
+        }
+
+        header button:active{
+            background-color: rgb(15, 15, 15);
+        }
+        .name-of-sender{
+            border-radius: 10px;
+            background-color: rgb(200, 0, 0);
+            padding: 10px;
+            color: rgb(255, 255, 255);
+
+            font-weight: bold;
+        }
+        main{
+            display: flex;
+            flex-direction: column;
+            overflow: auto;
+            margin: 5px;
+            padding: 5px;
+            max-width: 100%;
+        }
+        main section{
+            display: flex;
+            flex-direction: column;
+            margin: 5px;
+            padding: 5px;
+        }
+        main section > div{
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+        main .to{
+            margin-right: 8%;
+        }
+        main .to .details{
+            display: grid;
+            grid-template-columns: auto auto auto;
+            border-top-right-radius: 15px;
+            border-top-left-radius: 15px;
+            background-color: rgb(160, 135, 220);
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+        main .to .details > p{
+            font-size: 12px;
+            color: rgb(255, 255, 255);
+            text-align: center;
+            margin: 0;
+            padding: 2.5px;
+            border: 0;
+        }
+        main .to .message{
+            display: flex;
+            border-bottom-right-radius: 15px;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            background-color: rgb(115, 95, 175);
+        }
+        main .to .message > p{
+            color: rgb(255, 255, 255);
+            margin: 0;
+            padding: 10px;
+            border: 0;
+            text-wrap: wrap;
+            text-overflow: clip;
+        }
+        main .from{
+            margin-left: 8%;
+        }
+        main .from .details{
+            display: grid;
+            grid-template-columns: auto auto;
+            border-top-right-radius: 15px;
+            border-top-left-radius: 15px;
+            background-color: rgb(95, 95, 95);
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+        main .from .details > p{
+            font-size: 12px;
+            color: rgb(255, 255, 255);
+            text-align: center;
+            margin: 0;
+            padding: 2.5px;
+            border: 0;
+        }
+        main .from .message{
+            display: flex;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 15px;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            background-color: rgb(70, 70, 70);
+        }
+        main .from .message > p{
+            color: rgb(255, 255, 255);
+            margin: 0;
+            padding: 10px;
+            border: 0;
+            text-wrap: wrap;
+        }
+        footer{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+            padding: 5px;
+        }
+        footer > button{
+            margin: 0;
+            border: 0;
+            border-radius: 10px;
+            background-color: rgb(55, 15, 135);
+            color: rgb(255, 255, 255);
+            width: 65px;
+            height: 35px;
+            margin: 5px;
+        }
+        footer > button:hover{
+            background-color: rgb(117, 72, 207);
+        }
+        footer > button:active{
+            background-color: rgb(41, 13, 97);
+        }
+        footer > textarea{
+            margin: 5px;
+            padding: 5px;
+            border-radius: 10px;
+            border-color: rgb(0, 0, 0);
+            border-width: 2.5px;
+            border-style: solid;
+            max-height: 200px;
+            font-size: small;
+            text-align: right;
+            flex-grow: 1;
+        }
+        .details .status{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .details .status div{
+            margin: 2.5px;
+            width: 5.5px;
+            height: 5.5px;
+            background-color: rgb(255, 255, 255);
+            border-radius: 50%;
+        }
+        .details .seen div{
+            background-color: rgb(0, 215, 255);
+        }
+        .details .not-send div{
+            background-color: rgb(0, 0, 0);
+        }
+        .details .failed-send div{
+            background-color: rgb(255, 0, 0);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="{%url 'home'%}"><button>Back</button></a>
+        <div>
+            <img src="{%static 'chat/face.png'%}">
+            <p>{{user_name}}</p>
+        </div>
+        <p class="name-of-sender">welcome : {{request.user}}</p>
+    </header>
+
+    <main id="messages-area">
+         
+        {%for message in old_messages%}
+
+
+        {%if message.from_who == request.user%}
+        <section class="to">
+            <div class="details">
+                <p>{{message.date}}</p>
+                <div class="status"><div></div><div></div></div>
+                <p>{{message.time}}</p>
+            </div>
+            <div class="message">
+                <p style="overflow-wrap: anywhere;">{{message.message}}</p>
+            </div>
+        </section>
+        {%else%}
+
+        <section class="from">
+            <div class="details">
+                <p>{{message.date}}</p>
+                <p>{{message.time}}</p>
+            </div>
+            <div class="message">
+                <p style="overflow-wrap: anywhere;">{{message.message}}</p>
+            </div>
+        </section>
+        {%endif%}
+
+        {%endfor%}
+
+
+        </main>
+
+    <footer>
+        <textarea name="text" oninput="this.style.height = ''; this.style.height = this.scrollHeight +'px'" id="the-message-to-send"></textarea>
+        <button id="send-message-button">Send</button>
+    </footer>
+
+    <script>
+        const url =`ws://127.0.0.1:8000/websocket/{{request.user}}/{{user_name}}`;
+        const chat_websocket = new WebSocket(url);
+        const send_button    = document.getElementById("send-message-button");
+        const theMessage     = document.getElementById("the-message-to-send");
+        const messages_area  = document.getElementById("messages-area");
+
+        send_button.addEventListener("click", function(){
+            console.log("send meesage", theMessage.value);
+            chat_websocket.send(`{"type":"new_message","message":"${theMessage.value}","to_who":"{{user_name}}"}`);
+            messages_area.insertAdjacentHTML("beforeend", `  <section class="to">
+            <div class="details">
+                <p>2024-01-30</p>
+                <div class="status"><div></div><div></div></div>
+                <p>10:55:02</p>
+            </div>
+            <div class="message">
+                <p style="overflow-wrap: anywhere;">${theMessage.value}</p>
+            </div>
+        </section>`)
+            theMessage.value = "";
+        });
+
+
+
+        
+        
+        chat_websocket.onmessage = function(event) {
+            console.log("Message received from server:", event.data);
+            const received_data = JSON.parse(event.data);
+
+            if(received_data.type_of_data =="new_message" && received_data.from_who =="{{user_name}}")
+            {
+                messages_area.insertAdjacentHTML("beforeend", `  <section class="from">
+                    <div class="details">
+                        <p>2024-01-30</p>
+                        <p>10:55:02</p>
+                    </div>
+                    <div class="message">
+                        <p style="overflow-wrap: anywhere;">${received_data.data}</p>
+                    </div>
+                </section> `)
+            }
+            else if(received_data.type_of_data =="new_message" && received_data.from_who !="{{user_name}}")
+            {
+                // someone else sending you a message on your channel
+                // so we show you a notification
+                const options = {
+                    body: received_data.data,
+                    icon: '',
+                    tag: 'unique-tag' // Optional, used to avoid duplicate notifications
+                };
+                console.log("another user : {{received_data.from_who}} sending you a message")
+                const chatPersonUrl = `/chat_person/{{ request.user.username }}/${received_data.from_who}`;
+                showNotification('{{received_data.from_who}}', options, chatPersonUrl);
+            }
+
+        };
+
+        chat_websocket.onerror = function(error) {
+            console.error("WebSocket error:", error);
+        };
+
+        chat_websocket.onclose = function() {
+            console.log("WebSocket connection closed");
+        };
+
+
+
+
+        //--------
+        function showNotification(title, options, theLink) 
+        {
+            if (Notification.permission === 'granted') {
+                const notification = new Notification(title, options);
+        
+                notification.onclick = function(event) {
+                    event.preventDefault(); // Prevent the browser from focusing the Notification's tab
+                    window.open(theLink, '_blank');
+                };
+        
+                notification.onclose = function() {
+                    console.log('Notification closed');
+                };
+            } else {
+                console.log('Notification permission not granted');
+            }
+        }
+
+         // Request permission for notifications when the page loads if not already granted
+    if (Notification.permission !== 'granted' && Notification.permission !== 'denied') 
+    {
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+                console.log('Notification permission granted');
+            } else {
+                console.log('Notification permission denied');
+            }
+        });
+    }
+
+    </script>
+</body>
+</html>
